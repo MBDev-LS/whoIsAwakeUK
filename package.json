@@ -1,0 +1,26 @@
+{
+  "name": "whoisawakeuk",
+  "version": "1.0.0",
+  "description": "A website tracking the percentage of people awake in the UK.",
+  "homepage": "https://github.com/MBDev-LS/whoIsAwakeUK#readme",
+  "bugs": {
+    "url": "https://github.com/MBDev-LS/whoIsAwakeUK/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MBDev-LS/whoIsAwakeUK.git"
+  },
+  "license": "ISC",
+  "author": "Louis",
+  "type": "commonjs",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "devDependencies": {
+    "sass": "^1.102.0"
+  },
+  "allowScripts": {
+    "@parcel/watcher@2.6.0": true
+  }
+}
