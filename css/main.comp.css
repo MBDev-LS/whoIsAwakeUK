@@ -1,0 +1,62 @@
+body {
+  background-color: bisque;
+}
+
+* {
+  margin: 0;
+}
+
+.central-container {
+  width: -moz-fit-content;
+  width: fit-content;
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.central-container span {
+  font-size: 1.5rem;
+}
+
+.central-container span:first-child {
+  align-self: flex-start;
+}
+
+.central-container data {
+  align-self: center;
+  font-size: 15rem;
+}
+
+.central-container span:last-child {
+  align-self: flex-end;
+}
+
+.btn {
+  text-decoration: none;
+  padding: 1.5rem 4rem;
+  display: inline-block;
+  background-color: rgb(56, 56, 56);
+  border: none;
+  border-radius: 10px;
+  font-size: 1.25rem;
+  color: whitesmoke;
+  margin: 100px;
+  padding: 10px;
+}
+
+.btn--effects {
+  transition: all 0.2s;
+}
+
+.btn--effects:hover {
+  transform: translateY(-0.2rem);
+  box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.2);
+}
+
+.btn--effects:active {
+  transform: translateY(-0.1rem);
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.2);
+}/*# sourceMappingURL=main.comp.css.map */
