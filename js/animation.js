@@ -5,6 +5,7 @@ let wrapper
 
 window.addEventListener('load', function () {
 	wrapper = document.querySelector('.pinned-wrapper');
+	updateProgress()
 	console.log('LOADED HTML')
 }, false);
 

@@ -1,8 +1,9 @@
 :root {
   --bg-color: #ffe4c4;
+  --secondary-bg-color: hsl(33, 100%, 85%);
   --primary-text-color: #1a0e00;
   --secondary-text-color: #663800;
-  --tertiary-text-color: hsl(33, 100%, 1.25rem);
+  --tertiary-text-color: hsl(33, 100%, 25%);
   --slate-grey: #6F7D8C;
 }
 
@@ -34,7 +35,7 @@ body {
   position: absolute;
   top: 50%;
   left: 50%;
-  transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%) translateY(calc(var(--t, 0) * -30vh)) scale(calc(1 - var(--t, 0) * 0.4));
 }
 
 .central-container span {
@@ -63,21 +64,23 @@ body {
   text-decoration: none;
   padding: 1rem 2rem;
   display: inline-block;
+  background-color: var(--secondary-bg-color);
   border: none;
-  border-radius: 8px 8px 0 0;
+  border-radius: 10px;
   font-size: 2rem;
   color: var(--tertiary-text-color);
   font-weight: 500;
   position: absolute;
   left: 50%;
+  top: 70vh;
   transform: translateX(-50%);
-  bottom: 0;
+  opacity: calc(1 - var(--t) / 0.01);
 }
 
 .btn--effects {
   transition: background-image 0.2s;
-  border: solid --slate-grey;
-  border-width: 0 0 5px 0;
+  border: solid var(--tertiary-text-color);
+  border-width: 0 2px 0 2px;
   transform: translate(-50%, 5px);
 }
 
@@ -91,4 +94,42 @@ body {
 
 .btn--effects:active {
   transform: translate(-50%, 3px);
+}
+
+.activity-list {
+  position: absolute;
+  left: 50%;
+  top: 35vh;
+  background-color: var(--secondary-bg-color);
+  padding: 25px;
+  border-radius: 10px;
+  transition: transform;
+  transform: translate(-50%, calc((1 - var(--t)) * 30vh));
+  opacity: var(--t);
+}
+
+.activity-heading {
+  font-size: 3rem;
+  font-weight: 150;
+}
+
+.activity-item {
+  list-style-type: none;
+  margin-top: 0.25rem;
+  font-size: 1.1rem;
+}
+
+#details {
+  position: absolute;
+  top: 100vh;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
 }/*# sourceMappingURL=main.comp.css.map */
