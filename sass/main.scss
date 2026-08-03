@@ -1,10 +1,35 @@
 
+:root {
+	--bg-color: #ffe4c4;
+	--primary-text-color: #1a0e00;
+	--secondary-text-color: #663800;
+	--tertiary-text-color: hsl(33, 100%, 1.25rem);
+
+	--slate-grey: #6F7D8C;
+}
+
 body {
-	background-color: bisque;
+	// background-color: bisque;
+
+	background-color: var(--bg-color);
+	font-family: "Overpass", sans-serif;
 }
 
 * {
 	margin: 0;
+	padding: 0;
+}
+
+.pinned-wrapper {
+	height: 200vh;
+}
+
+.pinned-content-container {
+	// background: hsl(calc(var(--t) * 360) 70% 50%);
+
+	height: 100vh;
+	position: sticky;
+	top: 0;
 }
 
 .central-container {
@@ -19,48 +44,81 @@ body {
 	
 }
 
+.central-container {
+  opacity: calc(1 - var(--t));
+  transform: translate(-50%, -50%) scale(calc(1 - var(--t) * 0.3));
+}
+
 .central-container span {
-	font-size: 1.5rem;
+	font-size: 2rem;
+	color: var(--secondary-text-color);
 }
 
 .central-container span:first-child {
 	align-self: flex-start;
+	transform: translateY(30px);
 }
+
 .central-container data {
 	align-self: center;
-	font-size: 15rem;
+	font-size: 20rem;
+	font-weight: 200;
+
+	color: var(--primary-text-color);
 }
+
 .central-container span:last-child {
 	align-self: flex-end;
+	transform: translateY(-90px);
 }
 
 .btn {
 	text-decoration: none;
-	padding: 1.5rem 4rem;
+	padding: 1rem 2rem;
 	display: inline-block;
 
 
-	background-color: rgb(56, 56, 56);
+	// background-color: #77A0A9; //var(--slate-grey);
+	
 	border: none;
+	// border-color: #1a1a1a;
+	// border: #1a1a1a solid;
+	// border-width: 0.15rem 0.15rem 0 0.15rem;
+	
+	
 
-	border-radius: 10px;
-	font-size: 1.25rem;
-	color: whitesmoke;
 
-	margin: 100px;
-	padding: 10px;
+	border-radius: 8px 8px 0 0;
+	font-size: 2rem;
+	
+	color: var(--tertiary-text-color);
+	font-weight: 500;
+
+	position: absolute;
+	left: 50%;
+	transform: translateX(-50%);
+	bottom: 0;
 }
 
 .btn--effects {
-	transition: all .2s;
+	transition: background-image .2s;
+
+	border: solid hsl(33, 100%, 1.25rem);
+	border-width: 0 0 5px 0;
+
+	transform: translate(-50%, 5px);
+}
+
+.btn--effects {
+	transition: transform  .2s;
 }
 
 .btn--effects:hover {
-	transform: translateY(-.2rem);
-	box-shadow: 0 1rem 2rem rgba(0, 0, 0, .2);
+	// background-image: linear-gradient(to top, hsla(33, 100%, 70%, 0.4), hsla(33, 100%, 70%, 0));
+	
+	transform: translate(-50%, 0px);
 }
 
 .btn--effects:active {
-	transform: translateY(-.1rem);
-	box-shadow: 0 .5rem 1rem rgba(0, 0, 0, .2);
+	transform: translate(-50%, 3px);
 }
