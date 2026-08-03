@@ -37,11 +37,6 @@ body {
   transform: translate(-50%, -50%);
 }
 
-.central-container {
-  opacity: calc(1 - var(--t));
-  transform: translate(-50%, -50%) scale(calc(1 - var(--t) * 0.3));
-}
-
 .central-container span {
   font-size: 2rem;
   color: var(--secondary-text-color);
@@ -81,7 +76,7 @@ body {
 
 .btn--effects {
   transition: background-image 0.2s;
-  border: solid hsl(33, 100%, 1.25%);
+  border: solid --slate-grey;
   border-width: 0 0 5px 0;
   transform: translate(-50%, 5px);
 }
