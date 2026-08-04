@@ -11,8 +11,8 @@
 
 
 :root {
-	--bg-color: #0B1D3A;
-	--secondary-bg-color: #0f274d;
+	--bg-color: #0f274d;
+	--secondary-bg-color: hsl(217, 67%, 22%);
 	--primary-text-color: hsl(240, 2%, 85%);
 	--secondary-text-color: hsl(240, 2%, 80%);
 	--tertiary-text-color: hsl(240, 2%, 70%);
@@ -138,8 +138,7 @@ body {
 
 // ACTIVITY LIST
 
-
-.activity-list {
+.activity-block {
 	position: absolute;
 	left: 50%;
 	top: 35vh;
@@ -158,6 +157,12 @@ body {
 	color: var(--primary-text-color);
 }
 
+.activity-list {
+	display: grid;
+	grid-template-columns: auto auto 1fr;
+	row-gap: 0.5rem;
+	}
+
 .activity-heading {
 	font-size: 3rem;
 	font-weight: 150;
@@ -169,6 +174,16 @@ body {
 	font-weight: 250;
 
 	font-size: 1.2rem;
+
+	grid-column: 1 / -1;
+	display: grid;
+	grid-template-columns: subgrid;
+	align-items: baseline;
+	column-gap: 0.5ch;
+}
+
+.activity-number {
+	// text-align: right;
 }
 
 
