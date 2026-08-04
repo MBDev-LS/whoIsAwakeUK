@@ -4,9 +4,20 @@
 	--secondary-bg-color: hsl(33, 100%, 85%);
 	--primary-text-color: #1a0e00;
 	--secondary-text-color: #663800;
-	--tertiary-text-color: hsl(33, 100%, 25%);
+	--tertiary-text-color: #804600;
 
 	--slate-grey: #6F7D8C;
+}
+
+
+:root {
+	--bg-color: #0B1D3A;
+	--secondary-bg-color: #0f274d;
+	--primary-text-color: hsl(240, 2%, 85%);
+	--secondary-text-color: hsl(240, 2%, 80%);
+	--tertiary-text-color: hsl(240, 2%, 70%);
+
+	--slate-grey: red;
 }
 
 body {
@@ -72,6 +83,8 @@ body {
 	padding: 1rem 2rem;
 	display: inline-block;
 
+	text-align: center;
+
 
 	// background-color: lighten(var(--bg-color), 1); //var(--slate-grey);
 
@@ -103,7 +116,7 @@ body {
 	transition: background-image .2s;
 
 	border: solid var(--tertiary-text-color);
-	border-width: 0 2px 0 2px;
+	border-width: 0 1.5px 0 1.5px;
 
 	transform: translate(-50%, 5px);
 }
@@ -141,6 +154,8 @@ body {
 
 	transform: translate(-50%, calc((1 - var(--t)) * 30vh));
 	opacity: var(--t);
+
+	color: var(--primary-text-color);
 }
 
 .activity-heading {
@@ -151,8 +166,9 @@ body {
 .activity-item {
 	list-style-type: none;
 	margin-top: 0.25rem;
+	font-weight: 250;
 
-	font-size: 1.1rem;
+	font-size: 1.2rem;
 }
 
 
