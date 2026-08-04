@@ -131,6 +131,11 @@ body {
   font-size: 1.2rem;
 }
 
+a.disabled-link {
+  pointer-events: none;
+  cursor: default;
+}
+
 #details {
   position: absolute;
   top: 100vh;
