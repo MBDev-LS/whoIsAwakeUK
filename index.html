@@ -2,32 +2,61 @@
 <html lang="en-GB">
 <head>
 	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 	<title>Who Is Awake?</title>
+
+	<script>
+		// Runs synchronously, before anything renders, so the page never
+		// flashes the wrong theme. Must stay inline here rather than move to
+		// an external/deferred file, which would only run after first paint.
+		(function () {
+			var stored = localStorage.getItem('color-scheme');
+			var isDark = stored ? stored === 'dark' : window.matchMedia('(prefers-color-scheme: dark)').matches;
+			document.documentElement.classList.toggle('dark', isDark);
+		})();
+	</script>
 
 	<link rel="preconnect" href="https://fonts.googleapis.com">
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 	<link href="https://fonts.googleapis.com/css2?family=Overpass:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
 
 	<script src="js/animation.js" defer></script>
+	<script src="js/theme.js" defer></script>
+	<script src="js/data.js"></script>
 
 	<link rel="stylesheet" href="css/main.comp.css">
-	<meta name="theme-color" content="#ffe4c4"> 
-	<!-- Theme colour will need updating based on light/dark mode -->
+	<meta name="color-scheme" content="light dark">
+	<!--
+		Static fallbacks matched to OS scheme, so iOS Safari has the
+		right chrome color at parse time before theme.js runs. theme.js
+		keeps these (and itself) in sync for manual overrides.
+	-->
+	<meta name="theme-color" media="(prefers-color-scheme: light)" content="#ffe4c4">
+	<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#0f274d">
 </head>
 <body>
 	<div class="pinned-wrapper">
 		<div class="pinned-content-container">
-			<button class="btn--display-mode-toggle">
-				<img src="img/sun.svg" alt="A simple drawing of the sun" class="color-mode-icon color-mode-icon--light">
-				<img src="img/moon.svg" alt="A simple drawing of the moon" class="color-mode-icon color-mode-icon--dark">
-			
+			<button class="btn--display-mode-toggle" aria-label="Toggle dark mode" aria-pressed="false">
+				<svg class="color-mode-icon color-mode-icon--light" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+					<path d="M7 3V0H9V3H7Z" fill="currentColor"/>
+					<path d="M9 13V16H7V13H9Z" fill="currentColor"/>
+					<path d="M11 8C11 9.65685 9.65685 11 8 11C6.34315 11 5 9.65685 5 8C5 6.34315 6.34315 5 8 5C9.65685 5 11 6.34315 11 8Z" fill="currentColor"/>
+					<path d="M0 9H3V7H0V9Z" fill="currentColor"/>
+					<path d="M16 7H13V9H16V7Z" fill="currentColor"/>
+					<path d="M3.75735 5.17157L1.63603 3.05025L3.05025 1.63603L5.17157 3.75735L3.75735 5.17157Z" fill="currentColor"/>
+					<path d="M12.2426 10.8284L14.364 12.9497L12.9497 14.364L10.8284 12.2426L12.2426 10.8284Z" fill="currentColor"/>
+					<path d="M3.05025 14.364L5.17157 12.2426L3.75735 10.8284L1.63603 12.9498L3.05025 14.364Z" fill="currentColor"/>
+					<path d="M12.9497 1.63604L10.8284 3.75736L12.2426 5.17158L14.364 3.05026L12.9497 1.63604Z" fill="currentColor"/>
+				</svg>
+				<svg class="color-mode-icon color-mode-icon--dark" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+					<path d="M3.32031 11.6835C3.32031 16.6541 7.34975 20.6835 12.3203 20.6835C16.1075 20.6835 19.3483 18.3443 20.6768 15.032C19.6402 15.4486 18.5059 15.6834 17.3203 15.6834C12.3497 15.6834 8.32031 11.654 8.32031 6.68342C8.32031 5.50338 8.55165 4.36259 8.96453 3.32996C5.65605 4.66028 3.32031 7.89912 3.32031 11.6835Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+				</svg>
 			</button>
 			<p class="central-container">
-				<span>Approximately</span>
-				<!-- Add Approx. for small screens -->
-				<data value="14">14%</data>
-				<span>of British adults are awake.</span>
+				<span><span class="intro-full">Approximately</span><span class="intro-short">Approx.</span></span>
+				<data id="mainPercentageValue" value="14">14%</data>
+				<span>of British adults are awake</span>
 			</p>
 			
 			<div class="activity-block">

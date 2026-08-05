@@ -1,6 +1,3 @@
-
-console.log('LOADED JS')
-
 let wrapper, detailsLink, wrapperTop = 0
 let wrapperHeight = 0;
 
@@ -17,9 +14,8 @@ window.addEventListener('resize', measure);
 window.addEventListener('load', function () {
 	wrapper = document.querySelector('.pinned-wrapper');
 	detailsLink = document.querySelector('#details-button');
-	measure() 
+	measure()
 	updateProgress()
-	console.log('LOADED HTML')
 }, false);
 
 
@@ -54,9 +50,7 @@ function updateProgress() {
 		detailsLink.removeAttribute('tabindex');
 	}
 	}
-	
 
-	console.log(progress)
 	ticking = false;
 }
 

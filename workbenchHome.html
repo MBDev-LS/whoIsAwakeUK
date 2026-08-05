@@ -69,24 +69,27 @@
 	</script>
 
 	<script>
-		function getLogForTimeFromCsvList(logCsv, timeString) {
-			for (const rowArrayIndex in logCsv) {
-				const currentRow = logCsv[rowArrayIndex]
-
-				if (currentRow[0] === timeString) {
-					return currentRow
+		async function loadSleepData() {
+			try {
+				const response = await fetch("/data/finalData_FINAL-THISONE.json");
+				if (!response.ok) {
+				throw new Error(`Failed to fetch data: ${response.status}`);
 				}
+				const sleepData = await response.json();
+				return sleepData;
+			} catch (error) {
+				console.error("Could not load sleep data:", error);
 			}
-			return null
 		}
+		console.log('HELLO')
 
 		console.log(weekdayLogArray);
-			
+
 		let DateTime = luxon.DateTime;
 
 		let dayOfTheWeek = DateTime.now().weekday
 		let isWeekday = dayOfTheWeek <= 5
-		
+
 		let datetimeNow = DateTime.now()
 
 		let minuteToNearestTen = Math.round(datetimeNow.minute / 10) * 10;
@@ -94,27 +97,30 @@
 
 		if (minuteToNearestTen === 60) {
 			let roundedHourValue = (datetimeNow.hour + 1) % 24;
-			hourString = roundedHourValue.toString().padStart(2, '0') + ':'; 
+			hourString = roundedHourValue.toString().padStart(2, '0') + ':';
 			minuteToNearestTen = 0;
 		} else {
 			hourString = datetimeNow.toFormat('HH:');
 		}
-		
 
-		let fullTimeString = hourString + minuteToNearestTen.toString().padStart(2, '0'); 
 
-		console.log(isWeekday, fullTimeString)
+		let fullTimeString = hourString + minuteToNearestTen.toString().padStart(2, '0');
 
-		let currentTimeLog = getLogForTimeFromCsvList(weekdayLogArray, fullTimeString)
-		console.log(currentTimeLog)
+		console.log(isWeekday, fullTimeString);
 
-		let percentageCurrentlyAwake = 100 - Math.round(currentTimeLog[1])
-		let percentageCurrentlyAwakeText = percentageCurrentlyAwake.toString()
-		
-		
-		
-		$('#percentageDataHeader').text(`${percentageCurrentlyAwake}%`)
+		(async () => {
+			let currentTimeLog = await loadSleepData()
+			console.log(currentTimeLog.meta)
 
+			if (!currentTimeLog) {
+				return;
+			}
+
+			let percentageCurrentlyAwake = 100 - Math.round(currentTimeLog[1])
+			let percentageCurrentlyAwakeText = percentageCurrentlyAwake.toString()
+
+			$('#percentageDataHeader').text(`${percentageCurrentlyAwake}%`)
+		})();
 	</script>
 </body>
 </html>

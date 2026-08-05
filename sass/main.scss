@@ -11,6 +11,7 @@
 	--details-shift: -30vh;
 	--details-scale-reduction: 0.4;
 	--activity-top: 35svh;
+	--button-top: 70vh;
 }
 
 :root {
@@ -45,6 +46,12 @@ body {
 	font-family: "Overpass", sans-serif;
 }
 
+*,
+*::before,
+*::after {
+	box-sizing: border-box;
+}
+
 * {
 	margin: 0;
 	padding: 0;
@@ -57,9 +64,24 @@ body {
 .pinned-content-container {
 	// background: hsl(calc(var(--t, 0) * 360) 70% 50%);
 
+	// iOS 26 Safari tints its top/bottom bars by sampling the
+	// background-color of fixed/sticky elements near the viewport edges
+	// (falling back to <body> only if none are found) at initial render.
+	// Without this, it was picking up this element's transparent
+	// background instead of the page's actual theme color.
+	background-color: var(--bg-color);
+
 	height: 100svh;
 	position: sticky;
 	top: 0;
+
+	// central-container, activity-block and .btn all live in this one
+	// stretched grid cell and are centered here, instead of each of them
+	// self-centering with top/left/50%/translate.
+	display: grid;
+	grid-template-columns: 1fr;
+	grid-template-rows: 1fr;
+	place-items: center;
 }
 
 .central-container {
@@ -67,23 +89,25 @@ body {
 	display: flex;
 	flex-direction: column;
 
-	position: absolute;
-	top: 50%;
-	left: 50%;
+	grid-area: 1 / 1;
 
 	transform:
-		translate(-50%, -50%)
 		translateY(calc(var(--t, 0) * var(--details-shift)))
-		scale(calc(1 - var(--t, 0) * var(--details-scale-reduction)));;
+		scale(calc(1 - var(--t, 0) * var(--details-scale-reduction)));
+	will-change: transform;
 }
 .central-container span {
-	font-size:  clamp(0.8rem, 1.8vw, 2.2rem);;
+	font-size:  clamp(1rem, 2.2vw, 2.4rem);
 	color: var(--secondary-text-color);
 }
 
 .central-container span:first-child {
 	align-self: flex-start;
-	transform: translateY(1em);
+	transform: translateY(0.6em);
+}
+
+.intro-short {
+	display: none;
 }
 
 .central-container data {
@@ -96,7 +120,7 @@ body {
 
 .central-container span:last-child {
 	align-self: flex-end;
-	transform: translateY(-3em);
+	transform: translateY(-2em);
 }
 
 .btn {
@@ -125,11 +149,9 @@ body {
 	color: var(--tertiary-text-color);
 	font-weight: 500;
 
-	position: absolute;
-	left: 50%;
-	top: 70vh;
+	grid-area: 1 / 1;
+	align-self: start;
 
-	transform: translateX(-50%);
 	opacity: calc(calc(1 - var(--t, 0)/0.01));
 }
 
@@ -139,7 +161,8 @@ body {
 	border: solid var(--tertiary-text-color);
 	border-width: 0 1.5px 0 1.5px;
 
-	transform: translate(-50%, 5px);
+	transform: translateY(calc(var(--button-top) + 5px));
+	will-change: transform;
 }
 
 .btn--effects {
@@ -148,22 +171,20 @@ body {
 
 .btn--effects:hover {
 	// background-image: linear-gradient(to top, hsla(33, 100%, 70%, 0.4), hsla(33, 100%, 70%, 0));
-	
-	transform: translate(-50%, 0px);
+
+	transform: translateY(var(--button-top));
 }
 
 .btn--effects:active {
-	transform: translate(-50%, 3px);
+	transform: translateY(calc(var(--button-top) + 3px));
 }
 
 
 // ACTIVITY LIST
 
 .activity-block {
-	position: absolute;
-	left: 50%;
-	top: var(--activity-top);
-	// transform: ;
+	grid-area: 1 / 1;
+	align-self: start;
 
 	width: max-content;
 	max-width: min(90vw, 50rem);
@@ -172,15 +193,11 @@ body {
 	padding: 25px;
 	border-radius: 10px;
 
-
-	// transition: transform;
-
-	transform: translate(-50%, calc((1 - var(--t, 0)) * 30vh));
+	transform: translateY(calc(var(--activity-top) + (1 - var(--t, 0)) * 30vh));
 	opacity: var(--t, 0);
+	will-change: transform;
 
 	color: var(--primary-text-color);
-
-	
 }
 
 .activity-list {
@@ -190,9 +207,9 @@ body {
 	}
 
 .activity-heading {
-	font-size: clamp(1.75rem, 5vw, 3rem);
+	font-size: clamp(1.9rem, 5.5vw, 3.25rem);
 	font-weight: 150;
-	
+
 }
 
 .activity-item {
@@ -200,7 +217,7 @@ body {
 	margin-top: 0.25rem;
 	font-weight: 250;
 
-	font-size: clamp(0.9rem, 2.8vw, 1.2rem);
+	font-size: clamp(1.05rem, 3.2vw, 1.35rem);
 
 	grid-column: 1 / -1;
 	display: grid;
@@ -218,8 +235,8 @@ body {
 
 a.disabled-link {
 	pointer-events: none;
-    cursor: default; 
-	visibility: 0%;
+	cursor: default;
+	visibility: hidden;
 }
 
 #details {
@@ -249,29 +266,100 @@ html {
 
 @media screen and (max-width: 450px) {
 	:root {
-		--details-shift: -35vh;
-		--details-scale-reduction: 0.15;
-		--activity-top: 30svh;
+		// Bigger than desktop's -30vh/0.4: the mobile hero text is now
+		// larger overall, so it needs to travel further up and shrink
+		// more at full scroll to both clear the details block below and
+		// land near the top of the screen (see --button-top note above
+		// for why fixed vh/rem targets and content that scales with
+		// font-size fight each other on short phones).
+		--details-shift: -33vh;
+		--details-scale-reduction: 0.2;
+		// Lower than desktop's 35svh: the flowing-text activity list
+		// still needs more vertical room to fit above the viewport
+		// bottom than a shorter list would. Raised from 24svh to make
+		// room for the less-aggressively-shrunk hero text above without
+		// the two overlapping — the activity block's own max-height/
+		// overflow-y fallback (below) picks up the slack on short phones.
+		--activity-top: 34svh;
+		// The caption block's height is mostly set by font-size (px),
+		// not viewport height, so on short phones (e.g. iPhone SE,
+		// ~568px tall) the fixed 70vh default put the button right
+		// under the enlarged caption text. Extra svh of clearance —
+		// re-check this if the number/caption sizes above change again.
+		--button-top: 80svh;
+	}
+
+	// Same fix as the caption spans below: 18vw never crosses the 8rem
+	// floor within phone widths, so the number was pinned at the same
+	// fixed size on every phone and, worse, could end up narrower than
+	// the caption text below once that text got its own mobile bump.
+	.central-container data {
+		font-size: clamp(9.5rem, 34vw, 12rem);
+	}
+
+	// The global clamp's vw term barely moves across typical phone
+	// widths (~320-430px), so it was effectively pinned at its 1rem
+	// floor on every phone regardless of screen size. Give it its own
+	// mobile-tuned range instead of raising the shared floor again.
+	// Kept modest: at the previous, larger size "of British adults are
+	// awake" got nearly as wide as the number itself, which buried the
+	// fact that it's right-aligned to it (unlike "Approx.", clearly
+	// short and left-aligned).
+	.central-container span {
+		font-size: clamp(1rem, 4.5vw, 1.3rem);
+	}
+
+	// Pull the captions in closer to the number than the shared desktop
+	// values do, for a tighter mobile block.
+	.central-container span:first-child {
+		transform: translateY(1em);
+	}
+	.central-container span:last-child {
+		transform: translateY(-2.2em);
+	}
+
+	.intro-full {
+		display: none;
+	}
+	.intro-short {
+		display: inline;
 	}
 
 	.activity-block {
-		width: 80vw;
-		padding: 1rem;
-		max-height: 60svh;
+		// Wider than the 750px breakpoint's 80vw: more characters per
+		// line means fewer of the longer activity descriptions wrap,
+		// which matters more now that the text is larger.
+		width: 88vw;
+		padding: 0.75rem;
+
+		// Safety net for very short viewports only — the flowing-text
+		// layout below is tuned to fit without this kicking in on
+		// normal phones.
+		max-height: 65svh;
 		overflow-y: auto;
 	}
 
-	// .activity-item {
-	// 	grid-template-columns: auto auto;
-	// }
-
-	.activity-group {
-		grid-column: 1 / -1;
+	.activity-heading {
+		margin-bottom: 0.25rem;
 	}
 
-	
+	// Let each activity flow as ordinary wrapping text instead of a
+	// forced two-row grid (number+verb on row 1, description alone on
+	// row 2) — shorter items collapse to a single line, and only
+	// genuinely long descriptions wrap.
 	.activity-list {
-		row-gap: 0.3rem;
+		display: block;
+	}
+
+	.activity-item {
+		display: block;
+		margin-top: 0.3rem;
+	}
+
+	.activity-number,
+	.activity-verb,
+	.activity-group {
+		display: inline;
 	}
 }
 
@@ -279,11 +367,17 @@ html {
 
 .btn--display-mode-toggle {
 	border: none;
-    background: none;
+	// Matches the page background rather than staying transparent: this
+	// is also a fixed element near the top edge, and leaving it
+	// transparent gave iOS 26 Safari's toolbar-tint sampling a second,
+	// conflicting candidate alongside .pinned-content-container.
+    background-color: var(--bg-color);
     margin: 0;
     padding: 0;
 	width: clamp(2rem, 6vw, 4rem);
 	cursor: pointer;
+
+	color: var(--primary-text-color);
 
 	position: fixed;
 	top: clamp(1rem, 4vw, 2.5rem);
@@ -316,4 +410,5 @@ html {
 		display: none;
 	}
 }
+
 
