@@ -1,18 +1,28 @@
 
 console.log('LOADED JS')
 
-let wrapper
-let detailsLink = document.querySelector('#details-button');
+let wrapper, detailsLink, wrapperTop = 0
+let wrapperHeight = 0;
+
+let ticking = false;
+let isDisabled = false;
+
+function measure() {
+	wrapperTop = wrapper.getBoundingClientRect().top + window.scrollY;
+	wrapperHeight = wrapper.offsetHeight;
+}
+
+window.addEventListener('resize', measure);
 
 window.addEventListener('load', function () {
 	wrapper = document.querySelector('.pinned-wrapper');
 	detailsLink = document.querySelector('#details-button');
+	measure() 
 	updateProgress()
 	console.log('LOADED HTML')
 }, false);
 
 
-let ticking = false;
 
 function onScroll() {
 	if (!ticking) {
@@ -21,27 +31,28 @@ function onScroll() {
 	}
 }
 
-function updateProgress() {
-	const wrapperTop = wrapper.getBoundingClientRect().top + window.scrollY;
-	const budget = window.innerHeight;
-	let progress = (window.scrollY - wrapperTop) / budget;
-	progress = Math.min(1, Math.max(0, progress));
-	document.documentElement.style.setProperty('--t', progress);
 
-	// Don't love that at least one of these
-	// runs every time. Ideally it would only run
-	// at the point the link disppears. Unfortunately
-	// initial attempts to do it based on progress
-	// movement (lastProgress vs progress) did not
-	// work.
-	if (progress > 0.1) {
+function updateProgress() {
+	
+	const scrollableRange = wrapperHeight - window.innerHeight;
+	let progress = (window.scrollY - wrapperTop) / scrollableRange;
+	progress = Math.min(1, Math.max(0, progress));
+	if (progress < 0.005) {progress = 0};
+
+	wrapper.style.setProperty('--t', progress);
+
+	const shouldDisable = progress > 0.1;
+	if (shouldDisable !== isDisabled) {
+		isDisabled = shouldDisable;
+	if (isDisabled) {
 		detailsLink.classList.add('disabled-link');
-        detailsLink.setAttribute('aria-disabled', 'true'); // For screen readers
-        detailsLink.setAttribute('tabindex', '-1');        // Skips keyboard tabbing
+		detailsLink.setAttribute('aria-disabled', 'true');
+		detailsLink.setAttribute('tabindex', '-1');
 	} else {
 		detailsLink.classList.remove('disabled-link');
-        detailsLink.removeAttribute('aria-disabled');
-        detailsLink.removeAttribute('tabindex');
+		detailsLink.removeAttribute('aria-disabled');
+		detailsLink.removeAttribute('tabindex');
+	}
 	}
 	
 
@@ -49,4 +60,4 @@ function updateProgress() {
 	ticking = false;
 }
 
-window.addEventListener('scroll', onScroll);
+window.addEventListener('scroll', onScroll, { passive: true });

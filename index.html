@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en-GB">
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,18 +9,25 @@
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 	<link href="https://fonts.googleapis.com/css2?family=Overpass:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
 
-	<script src="js/animation.js"></script>
+	<script src="js/animation.js" defer></script>
 
 	<link rel="stylesheet" href="css/main.comp.css">
+	<meta name="theme-color" content="#ffe4c4"> 
+	<!-- Theme colour will need updating based on light/dark mode -->
 </head>
 <body>
 	<div class="pinned-wrapper">
 		<div class="pinned-content-container">
+			<button class="btn--display-mode-toggle">
+				<img src="img/sun.svg" alt="A simple drawing of the sun" class="color-mode-icon color-mode-icon--light">
+				<img src="img/moon.svg" alt="A simple drawing of the moon" class="color-mode-icon color-mode-icon--dark">
+			
+			</button>
 			<p class="central-container">
 				<span>Approximately</span>
 				<!-- Add Approx. for small screens -->
 				<data value="14">14%</data>
-				<span>of British adults are awake</span>
+				<span>of British adults are awake.</span>
 			</p>
 			
 			<div class="activity-block">
@@ -34,7 +41,12 @@
 					<li class="activity-item">
 						<span class="activity-number">...<b><data value="21">21%</data></b></span>
 						<span class="activity-verb">are</span> 
-						<b class="activity-group">doing paid word</b>
+						<b class="activity-group">doing paid work</b>
+					</li>
+					<li class="activity-item">
+						<span class="activity-number">...<b><data value="11">11%</data></b></span>
+						<span class="activity-verb">are</span> 
+						<b class="activity-group">travelling somewhere</b>
 					</li>
 					<li class="activity-item">
 						<span class="activity-number">...<b><data value="11">11%</data></b></span>
@@ -54,7 +66,7 @@
 					<li class="activity-item">
 						<span class="activity-number">...<b><data value="42">42%</data></b></span>
 						<span class="activity-verb">are</span> 
-						<b class="activity-group">engaging in entertainment and leasure</b>
+						<b class="activity-group">engaging in entertainment and leisure</b>
 					</li>
 					<li class="activity-item">
 						<span class="activity-number">...<b><data value="1">1%</data></b></span>
@@ -68,6 +80,8 @@
 					</li>
 				</ol>
 			</div>
+
+
 			
 			
 
@@ -87,10 +101,11 @@
 
 			<a id="details-button" href="#details" class="btn btn--effects">More Details</a>
 		</div>
+		<div id="details"></div>
+
 	</div>
 
-	<div id="details"></div>
-
+	
 	
 </body>
 </html>
