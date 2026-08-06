@@ -93,14 +93,25 @@ body {
 
 .central-container {
 	width: fit-content;
-	display: flex;
-	flex-direction: column;
-	// Without this, flex's default flex-start packs content to the top of
+	display: grid;
+	// A single column sized to the widest child's own natural width —
+	// virtually always the giant data figure, never the much-smaller
+	// caption spans — rather than flex's cross-axis, which sized captions
+	// against this box's full (reserved, see min-width below) width
+	// instead of the figure's actual rendered width. That let the captions
+	// hang past the figure's edges whenever the reserved width was wider
+	// than what's currently on screen (e.g. percentage mode's narrow "97%"
+	// sitting inside a box sized to fit the wider headcount string).
+	grid-template-columns: max-content;
+	// Centers that single (narrower) column within this box's own
+	// reserved width — horizontal counterpart to align-content below.
+	justify-content: center;
+	// Without this, grid's default row packing sends rows to the top of
 	// the reserved min-height below, so numbers-mode's visually shorter
 	// content (only really an issue because it has to reserve height for
 	// the percentage figure's much taller one) sits high with a gap
 	// underneath instead of sharing the same vertical center.
-	justify-content: center;
+	align-content: center;
 
 	grid-area: 1 / 1;
 
@@ -133,7 +144,10 @@ body {
 }
 
 .central-container span:first-child {
-	align-self: flex-start;
+	// justify-self (not align-self, which now controls the vertical/block
+	// axis in this grid layout): pins this span to the left edge of the
+	// data-figure-sized column above, i.e. the figure's own left edge.
+	justify-self: start;
 	transform: translateY(0.6em);
 }
 
@@ -142,7 +156,6 @@ body {
 }
 
 .central-container data {
-	align-self: center;
 	font-size: clamp(8rem, 18vw, 22rem);
 	font-weight: 200;
 
@@ -158,7 +171,9 @@ body.numbers-mode .central-container data {
 }
 
 .central-container span:last-child {
-	align-self: flex-end;
+	// See span:first-child above — pins this span to the right edge of
+	// the data figure's own rendered width.
+	justify-self: end;
 	transform: translateY(-2em);
 }
 

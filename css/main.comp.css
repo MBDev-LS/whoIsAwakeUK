@@ -111,9 +111,10 @@ body {
 
 .central-container {
   width: fit-content;
-  display: flex;
-  flex-direction: column;
+  display: grid;
+  grid-template-columns: max-content;
   justify-content: center;
+  align-content: center;
   grid-area: 1/1;
   min-height: clamp(12.8rem, 28.8vw, 35.2rem);
   min-width: clamp(19.5rem, 43vw, 65rem);
@@ -127,7 +128,7 @@ body {
 }
 
 .central-container span:first-child {
-  align-self: flex-start;
+  justify-self: start;
   transform: translateY(0.6em);
 }
 
@@ -136,7 +137,6 @@ body {
 }
 
 .central-container data {
-  align-self: center;
   font-size: clamp(8rem, 18vw, 22rem);
   font-weight: 200;
   color: var(--primary-text-color);
@@ -147,7 +147,7 @@ body.numbers-mode .central-container data {
 }
 
 .central-container span:last-child {
-  align-self: flex-end;
+  justify-self: end;
   transform: translateY(-2em);
 }
 

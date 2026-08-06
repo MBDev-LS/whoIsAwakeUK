@@ -17,10 +17,23 @@ function formatStat(percentage, baseCount) {
 		: `${Math.round(percentage)}%`;
 }
 
+// Keeps <data>'s value attribute (the machine-readable number) in sync with
+// its displayed text — without this, `value` was set once from the static
+// HTML placeholder and never touched again by either the periodic refresh
+// or the numbers/percentages toggle.
+function updateStat(el, percentage, baseCount) {
+	const rawValue = showAsHeadcount
+		? Math.round(baseCount * (percentage / 100))
+		: Math.round(percentage);
+
+	el.setAttribute('value', rawValue);
+	el.textContent = formatStat(percentage, baseCount);
+}
+
 function updatePage(percentageAwake, activitiesDictsList) {
 	document.body.classList.toggle('numbers-mode', showAsHeadcount);
 
-	document.querySelector('#mainPercentageValue').textContent = formatStat(percentageAwake, UK_ADULT_POPULATION);
+	updateStat(document.querySelector('#mainPercentageValue'), percentageAwake, UK_ADULT_POPULATION);
 
 	const peopleAwakeCount = UK_ADULT_POPULATION * (percentageAwake / 100);
 
@@ -32,7 +45,7 @@ function updatePage(percentageAwake, activitiesDictsList) {
 	for (const activity of activitiesDictsList) {
 		const item = itemTemplate.content.cloneNode(true);
 
-		item.querySelector('.activity-number data').textContent = formatStat(activity.percentOfAwake, peopleAwakeCount);
+		updateStat(item.querySelector('.activity-number data'), activity.percentOfAwake, peopleAwakeCount);
 		item.querySelector('.activity-group').textContent = activity.verboseActivity;
 
 		activityList.appendChild(item);
@@ -50,7 +63,13 @@ function updateCurrentlyAwake() {
 
 	let currentTimeIndex = hours * 6 + Math.floor(minutes / 10);
 
-	let currentTimeDataEntry = activityDataset['data']['weekday'][currentTimeIndex];
+	let currentTimeDataEntry
+
+	if (isWeekday) {
+		currentTimeDataEntry = activityDataset['data']['weekday'][currentTimeIndex];
+	} else {
+		currentTimeDataEntry = activityDataset['data']['weekend'][currentTimeIndex];
+	}
 
 	let percentageAwake = 100 - currentTimeDataEntry[0]
 
@@ -68,14 +87,14 @@ function updateCurrentlyAwake() {
 		
 		activitiesDictsList.push(currentActivityDict);
 	};
-	console.log(activitiesDictsList)
+	// console.log(activitiesDictsList)
 	activitiesDictsList.sort((a, b) => b.currentRawPercentage - a.currentRawPercentage)
-	console.log(activitiesDictsList)
+	// console.log(activitiesDictsList)
 
 	updatePage(percentageAwake, activitiesDictsList);
 
-	console.log(hours, minutes);
-	console.log(activityDataset['data']['weekday'][currentTimeIndex]);
+	// console.log(hours, minutes);
+	// console.log(activityDataset['data']['weekday'][currentTimeIndex]);
 }
 
 const switchToNumbersButton = document.querySelector('#switch-numbers-toggle');
