@@ -1,7 +1,7 @@
 // Info page
 
 .info-container {
-	max-width: 40rem;
+	max-width: 70rem;
 	margin: 0 auto;
 	padding: clamp(4rem, 12vw, 6rem) clamp(1.5rem, 5vw, 2.5rem) 4rem;
 	color: var(--primary-text-color);
@@ -12,6 +12,10 @@
 	margin-bottom: 2rem;
 	color: var(--secondary-text-color);
 	text-decoration: none;
+
+	// Without this, a fast double-tap on mobile is interpreted as the
+	// double-tap-to-zoom gesture instead of two taps on the link.
+	touch-action: manipulation;
 
 	&:hover {
 		text-decoration: underline;

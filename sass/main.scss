@@ -1,5 +1,11 @@
 @use 'info';
 
+// Shared between .activity-block and .details-actions, so the actions
+// row's width always tracks the details card's width exactly.
+$details-row-width: min(90vw, 50rem);
+$details-row-width-750: 80vw;
+$details-row-width-450: 88vw;
+
 @property --t {
 	syntax: '<number>';
 	inherits: true;
@@ -12,6 +18,7 @@
 	--details-scale-reduction: 0.4;
 	--activity-top: 35svh;
 	--button-top: 70vh;
+	--details-travel: 30vh;
 }
 
 :root {
@@ -75,7 +82,7 @@ body {
 	position: sticky;
 	top: 0;
 
-	// central-container, activity-block and .btn all live in this one
+	// central-container, details-section and .btn all live in this one
 	// stretched grid cell and are centered here, instead of each of them
 	// self-centering with top/left/50%/translate.
 	display: grid;
@@ -88,8 +95,32 @@ body {
 	width: fit-content;
 	display: flex;
 	flex-direction: column;
+	// Without this, flex's default flex-start packs content to the top of
+	// the reserved min-height below, so numbers-mode's visually shorter
+	// content (only really an issue because it has to reserve height for
+	// the percentage figure's much taller one) sits high with a gap
+	// underneath instead of sharing the same vertical center.
+	justify-content: center;
 
 	grid-area: 1 / 1;
+
+	// Reserves the same vertical space the giant percentage figure needs,
+	// so switching to numbers-mode's much shorter text doesn't shrink this
+	// box and, since it's centered via place-items:center, doesn't get
+	// re-centered (i.e. visibly jump) on toggle. ~1.6x the percentage data
+	// element's own font-size clamp below (measured empirically: the
+	// container's real total height, including both captions and the
+	// data line's leading, runs about 1.6x its font-size alone).
+	min-height: clamp(12.8rem, 28.8vw, 35.2rem);
+	// Same idea, horizontally. Unlike height, numbers-mode isn't reliably
+	// narrower than the percentage figure — it depends on the live value's
+	// digit count, and is actually *wider* than the percentage across most
+	// of the viewport range (measured directly at 9 widths from 390 to
+	// 2560px). This floor was set to comfortably clear the wider of the
+	// two at every one of those measured points, not just estimated from
+	// one clamp's shape, since the two figures don't scale at the same
+	// rate relative to each other.
+	min-width: clamp(19.5rem, 43vw, 65rem);
 
 	transform:
 		translateY(calc(var(--t, 0) * var(--details-shift)))
@@ -118,9 +149,26 @@ body {
 	color: var(--primary-text-color);
 }
 
+// Headcounts ("52.5 million") run far longer than percentages ("97%"), so
+// the hero's percentage-tuned font-size would badly overflow — this needs
+// its own, smaller scale rather than one clamp trying to fit both. Still
+// as large as it can go without overflowing on wide desktop monitors.
+body.numbers-mode .central-container data {
+	font-size: clamp(3.9rem, 8.7vw, 13rem);
+}
+
 .central-container span:last-child {
 	align-self: flex-end;
 	transform: translateY(-2em);
+}
+
+// The -2em/0.6em pull-in above is tuned to hug the giant percentage
+// figure's oversized line-box; against numbers-mode's much shorter data
+// element (above) those same offsets overshoot and pull the captions into
+// the number instead of just above/below it.
+body.numbers-mode .central-container span:first-child,
+body.numbers-mode .central-container span:last-child {
+	transform: translateY(0);
 }
 
 .btn {
@@ -129,6 +177,10 @@ body {
 	display: inline-block;
 
 	text-align: center;
+
+	// Without this, a fast double-tap on mobile is interpreted as the
+	// double-tap-to-zoom gesture instead of two taps on the button.
+	touch-action: manipulation;
 
 
 	// background-color: lighten(var(--bg-color), 1); //var(--slate-grey);
@@ -180,22 +232,33 @@ body {
 }
 
 
-// ACTIVITY LIST
+// DETAILS SECTION (activity-block + details-actions)
 
-.activity-block {
+// Owns the position/fade-in for both children below, so the card and the
+// actions row always move as one unit and the row is guaranteed to sit
+// just below the card's actual (content-dependent) height — rather than
+// each having its own independently-tuned offset that can only
+// coincidentally line up.
+.details-section {
 	grid-area: 1 / 1;
 	align-self: start;
 
 	width: max-content;
-	max-width: min(90vw, 50rem);
+	max-width: $details-row-width;
 
+	display: flex;
+	flex-direction: column;
+	gap: 1rem;
+
+	transform: translateY(calc(var(--activity-top) + (1 - var(--t, 0)) * var(--details-travel)));
+	opacity: var(--t, 0);
+	will-change: transform;
+}
+
+.activity-block {
 	background-color: var(--secondary-bg-color);
 	padding: 25px;
 	border-radius: 10px;
-
-	transform: translateY(calc(var(--activity-top) + (1 - var(--t, 0)) * 30vh));
-	opacity: var(--t, 0);
-	will-change: transform;
 
 	color: var(--primary-text-color);
 }
@@ -231,6 +294,61 @@ body {
 // }
 
 
+// DETAILS ACTIONS ROW
+
+.details-actions {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: center;
+	align-items: stretch;
+	gap: 0.5rem;
+}
+
+.details-actions-item {
+	flex: 1 1 0;
+	// Not max-content: lets the placeholder's longer sentence wrap onto a
+	// second line within its own pill, instead of forcing the whole row
+	// to break — three pills side by side stay on one line at any width
+	// down to the 450px breakpoint's stacked layout.
+	min-width: 0;
+
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	text-align: center;
+
+	font: inherit;
+	text-decoration: none;
+	cursor: pointer;
+	border: none;
+
+	// Without this, a fast double-tap on mobile is interpreted as the
+	// double-tap-to-zoom gesture instead of two taps on the button/link.
+	touch-action: manipulation;
+
+	background-color: var(--secondary-bg-color);
+	color: var(--tertiary-text-color);
+	border-radius: 10px;
+	padding: 1.5rem 1.25rem;
+	font-size: clamp(0.9rem, 2.4vw, 1.05rem);
+	font-weight: 500;
+	line-height: 1.3;
+
+	&:hover {
+		opacity: 0.85;
+	}
+
+	&:active {
+		transform: translateY(1px);
+	}
+}
+
+.details-actions-item--placeholder {
+	// Extra flex weight for its longer text.
+	flex: 1.6 1 0;
+}
+
+
 // Jump to
 
 a.disabled-link {
@@ -258,8 +376,8 @@ html {
 // Screen Size Media Queries
 
 @media screen and (max-width: 750px) {
-	.activity-block {
-		width: 80vw;
+	.details-section {
+		width: $details-row-width-750;
 	}
 }
 
@@ -274,19 +392,27 @@ html {
 		// font-size fight each other on short phones).
 		--details-shift: -33vh;
 		--details-scale-reduction: 0.2;
-		// Lower than desktop's 35svh: the flowing-text activity list
-		// still needs more vertical room to fit above the viewport
-		// bottom than a shorter list would. Raised from 24svh to make
-		// room for the less-aggressively-shrunk hero text above without
-		// the two overlapping — the activity block's own max-height/
-		// overflow-y fallback (below) picks up the slack on short phones.
-		--activity-top: 34svh;
+		// Lower than desktop's 35svh, and lower still than this
+		// breakpoint's old 34svh: with details-actions now stacked below
+		// the card as part of the same wrapper, the combined content needs
+		// more of the viewport's remaining room, so this is pulled up as
+		// far as it can go without clipping into the shrunk-but-still-
+		// centered hero number above it — re-check if the hero sizing
+		// above changes.
+		--activity-top: 26svh;
 		// The caption block's height is mostly set by font-size (px),
 		// not viewport height, so on short phones (e.g. iPhone SE,
 		// ~568px tall) the fixed 70vh default put the button right
 		// under the enlarged caption text. Extra svh of clearance —
 		// re-check this if the number/caption sizes above change again.
 		--button-top: 80svh;
+		// Bigger than desktop's 30vh: details-section's resting spot
+		// (--activity-top above) was pulled up closer to the hero to make
+		// room for the row below the card, so it now needs a longer head
+		// start to stay clear of the hero's own path while both are still
+		// mid-transition, instead of the two crossing paths partway
+		// through the scroll.
+		--details-travel: 60svh;
 	}
 
 	// Same fix as the caption spans below: 18vw never crosses the 8rem
@@ -295,6 +421,17 @@ html {
 	// the caption text below once that text got its own mobile bump.
 	.central-container data {
 		font-size: clamp(9.5rem, 34vw, 12rem);
+	}
+
+	.central-container {
+		min-height: clamp(15.2rem, 54.4vw, 19.2rem);
+	}
+
+	// Own mobile scale for the same reason as the percentage override just
+	// above: needs a bigger vw coefficient to actually grow across phone
+	// widths instead of sitting on the desktop rule's low floor.
+	body.numbers-mode .central-container data {
+		font-size: clamp(3.6rem, 14vw, 6rem);
 	}
 
 	// The global clamp's vw term barely moves across typical phone
@@ -325,18 +462,32 @@ html {
 		display: inline;
 	}
 
-	.activity-block {
+	.details-section {
 		// Wider than the 750px breakpoint's 80vw: more characters per
 		// line means fewer of the longer activity descriptions wrap,
 		// which matters more now that the text is larger.
-		width: 88vw;
-		padding: 0.75rem;
+		width: $details-row-width-450;
+		gap: 0.6rem;
+	}
 
-		// Safety net for very short viewports only — the flowing-text
-		// layout below is tuned to fit without this kicking in on
-		// normal phones.
-		max-height: 65svh;
-		overflow-y: auto;
+	.activity-block {
+		padding: 0.75rem;
+	}
+
+	.details-actions {
+		flex-wrap: wrap;
+	}
+
+	// Sources + Switch to numbers side by side, placeholder on its own
+	// full-width row below — three full-width stacked rows made the
+	// combined card+row content taller than the pinned viewport had
+	// room for.
+	.details-actions-item {
+		flex: 1 1 calc(50% - 0.3rem);
+	}
+
+	.details-actions-item--placeholder {
+		flex: 1 1 100%;
 	}
 
 	.activity-heading {
@@ -376,6 +527,10 @@ html {
     padding: 0;
 	width: clamp(2rem, 6vw, 4rem);
 	cursor: pointer;
+
+	// Without this, a fast double-tap on mobile is interpreted as the
+	// double-tap-to-zoom gesture instead of two taps on the button.
+	touch-action: manipulation;
 
 	color: var(--primary-text-color);
 
