@@ -22,7 +22,7 @@
 
 	<script src="js/animation.js" defer></script>
 	<script src="js/theme.js" defer></script>
-	<script src="js/data.js"></script>
+	<script src="js/data.js" defer></script>
 
 	<link rel="stylesheet" href="css/main.comp.css">
 	<meta name="color-scheme" content="light dark">
@@ -108,6 +108,14 @@
 						<b class="activity-group">doing something else</b>
 					</li>
 				</ol>
+
+				<template id="activity-item-template">
+					<li class="activity-item">
+						<span class="activity-number">...<b><data value="0">0%</data></b></span>
+						<span class="activity-verb">are</span>
+						<b class="activity-group"></b>
+					</li>
+				</template>
 			</div>
 
 
