@@ -1,19 +1,4 @@
-async function loadSleepData() {
-	try {
-		const response = await fetch("/data/finalData_FINAL-THISONE.json");
-		if (!response.ok) {
-		throw new Error(`Failed to fetch data: ${response.status}`);
-		}
-		const sleepData = await response.json();
-		return sleepData;
-	} catch (error) {
-		console.error("Could not load sleep data:", error);
-	}
-}
-
-
-let activityDataset;
-
+// activityDataset comes from js/activityData.js, loaded just before this file.
 
 function updatePage(roundedPercentageAwake, activitiesDictsList) {
 	document.querySelector('#mainPercentageValue').textContent = `${roundedPercentageAwake}%`
@@ -73,10 +58,6 @@ function updateCurrentlyAwake() {
 	console.log(activityDataset['data']['weekday'][currentTimeIndex]);
 }
 
-(async () => {
-	activityDataset = await loadSleepData();
-
-	updateCurrentlyAwake();
-	setInterval(updateCurrentlyAwake, 60000);
-})();
+updateCurrentlyAwake();
+setInterval(updateCurrentlyAwake, 60000);
 
