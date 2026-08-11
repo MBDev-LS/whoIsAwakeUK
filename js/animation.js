@@ -1,4 +1,4 @@
-let wrapper, detailsLink, wrapperTop = 0
+let wrapper, detailsLink, detailsActionsItems, wrapperTop = 0
 let wrapperHeight = 0;
 
 let ticking = false;
@@ -14,6 +14,7 @@ window.addEventListener('resize', measure);
 window.addEventListener('load', function () {
 	wrapper = document.querySelector('.pinned-wrapper');
 	detailsLink = document.querySelector('#details-button');
+	detailsActionsItems = document.querySelectorAll('.details-actions-item');
 	measure()
 	updateProgress()
 }, false);
@@ -44,10 +45,27 @@ function updateProgress() {
 		detailsLink.classList.add('disabled-link');
 		detailsLink.setAttribute('aria-disabled', 'true');
 		detailsLink.setAttribute('tabindex', '-1');
+
+		// .details-actions-item elements are the mirror case: they're
+		// invisible (opacity 0, transformed off-screen) below this same
+		// threshold, so they go the opposite direction — becoming reachable
+		// only once the reveal has actually started, instead of sitting in
+		// the tab order as invisible dead stops.
+		detailsActionsItems.forEach(function (el) {
+			el.classList.remove('disabled-link');
+			el.removeAttribute('aria-disabled');
+			el.removeAttribute('tabindex');
+		});
 	} else {
 		detailsLink.classList.remove('disabled-link');
 		detailsLink.removeAttribute('aria-disabled');
 		detailsLink.removeAttribute('tabindex');
+
+		detailsActionsItems.forEach(function (el) {
+			el.classList.add('disabled-link');
+			el.setAttribute('aria-disabled', 'true');
+			el.setAttribute('tabindex', '-1');
+		});
 	}
 	}
 

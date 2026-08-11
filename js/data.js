@@ -100,6 +100,7 @@ function updateCurrentlyAwake() {
 const switchToNumbersButton = document.querySelector('#switch-numbers-toggle');
 switchToNumbersButton.addEventListener('click', () => {
 	showAsHeadcount = !showAsHeadcount;
+	switchToNumbersButton.setAttribute('aria-pressed', String(showAsHeadcount));
 	switchToNumbersButton.innerHTML = showAsHeadcount ? 'Switch to<br>percentages' : 'Switch to<br>numbers';
 	updateCurrentlyAwake();
 });

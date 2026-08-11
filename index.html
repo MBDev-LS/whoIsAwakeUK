@@ -52,58 +52,58 @@
 					<path d="M3.32031 11.6835C3.32031 16.6541 7.34975 20.6835 12.3203 20.6835C16.1075 20.6835 19.3483 18.3443 20.6768 15.032C19.6402 15.4486 18.5059 15.6834 17.3203 15.6834C12.3497 15.6834 8.32031 11.654 8.32031 6.68342C8.32031 5.50338 8.55165 4.36259 8.96453 3.32996C5.65605 4.66028 3.32031 7.89912 3.32031 11.6835Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
 				</svg>
 			</button>
-			<p class="central-container">
+			<h1 class="central-container">
 				<span><span class="intro-full">Approximately</span><span class="intro-short">Approx.</span></span>
 				<data id="mainPercentageValue" value="14">14%</data>
 				<span>of British adults are awake</span>
-			</p>
+			</h1>
 			
 			<div class="details-section">
 			<div class="activity-block">
 				<h2 class="activity-heading">Of those awake...</h2>
 				<ol class="activity-list">
 					<li class="activity-item">
-						<span class="activity-number">...<b><data value="47">47%</data></b></span>
+						<span class="activity-number"><span aria-hidden="true">…</span><b><data value="47">47%</data></b></span>
 						<span class="activity-verb">are</span> 
 						<b class="activity-group">engaging in personal care (eating, drinking, washing, etc.)</b>
 					</li>
 					<li class="activity-item">
-						<span class="activity-number">...<b><data value="21">21%</data></b></span>
+						<span class="activity-number"><span aria-hidden="true">…</span><b><data value="21">21%</data></b></span>
 						<span class="activity-verb">are</span> 
 						<b class="activity-group">doing paid work</b>
 					</li>
 					<li class="activity-item">
-						<span class="activity-number">...<b><data value="11">11%</data></b></span>
+						<span class="activity-number"><span aria-hidden="true">…</span><b><data value="11">11%</data></b></span>
 						<span class="activity-verb">are</span> 
 						<b class="activity-group">travelling somewhere</b>
 					</li>
 					<li class="activity-item">
-						<span class="activity-number">...<b><data value="11">11%</data></b></span>
+						<span class="activity-number"><span aria-hidden="true">…</span><b><data value="11">11%</data></b></span>
 						<span class="activity-verb">are</span> 
 						<b class="activity-group">doing unpaid housework</b>
 					</li>
 					<li class="activity-item">
-						<span class="activity-number">...<b><data value="5">5%</data></b></span>
+						<span class="activity-number"><span aria-hidden="true">…</span><b><data value="5">5%</data></b></span>
 						<span class="activity-verb">are</span> 
 						<b class="activity-group">doing unpaid caregiving</b>
 					</li>
 					<li class="activity-item">
-						<span class="activity-number">...<b><data value="21">21%</data></b></span>
+						<span class="activity-number"><span aria-hidden="true">…</span><b><data value="21">21%</data></b></span>
 						<span class="activity-verb">are</span> 
 						<b class="activity-group">watching television</b>
 					</li>
 					<li class="activity-item">
-						<span class="activity-number">...<b><data value="42">42%</data></b></span>
+						<span class="activity-number"><span aria-hidden="true">…</span><b><data value="42">42%</data></b></span>
 						<span class="activity-verb">are</span> 
 						<b class="activity-group">engaging in entertainment and leisure</b>
 					</li>
 					<li class="activity-item">
-						<span class="activity-number">...<b><data value="1">1%</data></b></span>
+						<span class="activity-number"><span aria-hidden="true">…</span><b><data value="1">1%</data></b></span>
 						<span class="activity-verb">are</span> 
 						<b class="activity-group">studying</b>
 					</li>
 					<li class="activity-item">
-						<span class="activity-number">...<b><data value="0.1">0.1%</data></b></span>
+						<span class="activity-number"><span aria-hidden="true">…</span><b><data value="0.1">0.1%</data></b></span>
 						<span class="activity-verb">are</span> 
 						<b class="activity-group">doing something else</b>
 					</li>
@@ -111,7 +111,7 @@
 
 				<template id="activity-item-template">
 					<li class="activity-item">
-						<span class="activity-number">...<b><data value="0">0%</data></b></span>
+						<span class="activity-number"><span aria-hidden="true">…</span><b><data value="0">0%</data></b></span>
 						<span class="activity-verb">are</span>
 						<b class="activity-group"></b>
 					</li>
@@ -119,9 +119,9 @@
 			</div>
 
 			<div class="details-actions">
-				<a href="info.html" class="details-actions-item">Sorry, what?</a>
-				<button type="button" id="switch-numbers-toggle" class="details-actions-item">Switch to<br>numbers</button>
-				<a href="#" class="details-actions-item details-actions-item--placeholder">TODO: placeholder — add real copy here.</a>
+				<a href="info.html" class="details-actions-item disabled-link" tabindex="-1" aria-disabled="true">Sorry, what?</a>
+				<button type="button" id="switch-numbers-toggle" class="details-actions-item disabled-link" tabindex="-1" aria-disabled="true" aria-pressed="false">Switch to<br>numbers</button>
+				<a href="javascript:alert('This does nothing yet')" class="details-actions-item details-actions-item--placeholder disabled-link" tabindex="-1" aria-disabled="true">TODO: placeholder, word words and more words here.</a>
 			</div>
 			</div>
 

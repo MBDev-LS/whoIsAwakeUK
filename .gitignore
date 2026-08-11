@@ -3,6 +3,12 @@
 __ignore_*
 .vscode
 
+
+# PROJECT
+
+dist/
+.wrangler/
+
 # AUTOMATED
 
 # Created by https://www.toptal.com/developers/gitignore/api/visualstudiocode,node,linux,macos,windows,sass

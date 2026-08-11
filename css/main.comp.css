@@ -60,18 +60,18 @@
 
 :root {
   --bg-color: #ffe4c4;
-  --secondary-bg-color: hsl(33, 100%, 85%);
+  --secondary-bg-color: #ffddb3;
   --primary-text-color: #1a0e00;
   --secondary-text-color: #663800;
-  --tertiary-text-color: #804600;
+  --tertiary-text-color: #6b3a00;
 }
 
 :root.dark {
   --bg-color: #0f274d;
-  --secondary-bg-color: hsl(217, 67%, 22%);
-  --primary-text-color: hsl(240, 2%, 85%);
-  --secondary-text-color: hsl(240, 2%, 80%);
-  --tertiary-text-color: hsl(240, 2%, 70%);
+  --secondary-bg-color: #132f5e;
+  --primary-text-color: #d8d8da;
+  --secondary-text-color: #cbcbcd;
+  --tertiary-text-color: #c1c1c3;
 }
 
 html {
@@ -111,6 +111,7 @@ body {
 
 .central-container {
   width: fit-content;
+  font-weight: normal;
   display: grid;
   grid-template-columns: max-content;
   justify-content: center;
@@ -275,7 +276,7 @@ body.numbers-mode .central-container span:last-child {
   flex: 1.6 1 0;
 }
 
-a.disabled-link {
+.disabled-link {
   pointer-events: none;
   cursor: default;
   visibility: hidden;
@@ -369,13 +370,13 @@ html {
   background-color: var(--bg-color);
   margin: 0;
   padding: 0;
-  width: clamp(2rem, 6vw, 4rem);
+  width: clamp(2.75rem, 6vw, 4rem);
   cursor: pointer;
   touch-action: manipulation;
   color: var(--primary-text-color);
   position: fixed;
   top: clamp(1rem, 4vw, 2.5rem);
-  left: clamp(1rem, 4vw, 2.5rem);
+  right: clamp(1rem, 4vw, 2.5rem);
   z-index: 10;
 }
 

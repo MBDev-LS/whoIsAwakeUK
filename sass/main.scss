@@ -23,19 +23,28 @@ $details-row-width-450: 88vw;
 
 :root {
 	--bg-color: #ffe4c4;
-	--secondary-bg-color: hsl(33, 100%, 85%);
+	--secondary-bg-color: #ffddb3;
 	--primary-text-color: #1a0e00;
 	--secondary-text-color: #663800;
-	--tertiary-text-color: #804600;
+	// Was #804600 (5.81:1 vs --secondary-bg-color — fails AAA's 7:1).
+	// Lightness-only shift, same hue/saturation, to 7.28:1 — clears AAA
+	// with a real margin while staying short of --secondary-text-color's
+	// own 7.62:1, so the primary > secondary > tertiary contrast hierarchy
+	// stays intact instead of the two nearly converging.
+	--tertiary-text-color: #6b3a00;
 }
 
 
 :root.dark {
 	--bg-color: #0f274d;
-	--secondary-bg-color: hsl(217, 67%, 22%);
-	--primary-text-color: hsl(240, 2%, 85%);
-	--secondary-text-color: hsl(240, 2%, 80%);
-	--tertiary-text-color: hsl(240, 2%, 70%);
+	--secondary-bg-color: #132f5e;
+	--primary-text-color: #d8d8da;
+	--secondary-text-color: #cbcbcd;
+	// Was #b1b1b4 (6.15:1 vs --secondary-bg-color — fails AAA's 7:1).
+	// Same lightness-only-shift approach as the light theme, to 7.32:1 —
+	// clears AAA with a real margin while staying short of
+	// --secondary-text-color's own 8.12:1.
+	--tertiary-text-color: #c1c1c3;
 }
 
 // html, body {
@@ -93,6 +102,13 @@ body {
 
 .central-container {
 	width: fit-content;
+	// This is an <h1> (for the page's heading structure — see index.html),
+	// which the UA stylesheet bolds by default. Its own children (the
+	// captions and the figure) all set their own font-weight explicitly
+	// except the captions, which relied on inheriting `normal` from the
+	// <p> this used to be — without this, they'd pick up the <h1>'s bold
+	// instead.
+	font-weight: normal;
 	display: grid;
 	// A single column sized to the widest child's own natural width —
 	// virtually always the giant data figure, never the much-smaller
@@ -366,7 +382,10 @@ body.numbers-mode .central-container span:last-child {
 
 // Jump to
 
-a.disabled-link {
+// Not scoped to `a` — also applied to #switch-numbers-toggle (a <button>)
+// in .details-actions, so both element types share the same hidden/
+// non-interactive treatment.
+.disabled-link {
 	pointer-events: none;
 	cursor: default;
 	visibility: hidden;
@@ -540,7 +559,10 @@ html {
     background-color: var(--bg-color);
     margin: 0;
     padding: 0;
-	width: clamp(2rem, 6vw, 4rem);
+	// Floor raised from 2rem (32px) to 2.75rem (44px) — the smallest size
+	// this ever renders at, on narrow phones — to clear the 44x44 touch
+	// target WCAG 2.5.5 (AAA) and platform guidance recommend.
+	width: clamp(2.75rem, 6vw, 4rem);
 	cursor: pointer;
 
 	// Without this, a fast double-tap on mobile is interpreted as the
@@ -551,7 +573,7 @@ html {
 
 	position: fixed;
 	top: clamp(1rem, 4vw, 2.5rem);
-	left: clamp(1rem, 4vw, 2.5rem);
+	right: clamp(1rem, 4vw, 2.5rem);
 	z-index: 10;
 }
 

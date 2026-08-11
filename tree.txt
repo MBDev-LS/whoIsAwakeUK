@@ -1,0 +1,250 @@
+.
+├── ancillary
+│   ├── data
+│   │   ├── finalData copy.json
+│   │   ├── finalData.json
+│   │   ├── finalDataorganisation.py
+│   │   ├── testOutput.json
+│   │   ├── weekdayActivityLog.csv
+│   │   └── weekendActivityLog.csv
+│   ├── dataProcessing.py
+│   ├── jsLibraries
+│   │   ├── jquery-3.7.1.min.js
+│   │   ├── luxon.js
+│   │   ├── papaparse.js
+│   │   └── tempTailwind.js
+│   ├── notepad.json
+│   ├── notepadOutput.json
+│   ├── oldHome.html
+│   └── workbenchHome.html
+├── css
+│   ├── main.comp.css
+│   └── main.comp.css.map
+├── data
+│   └── finalData_FINAL-THISONE.json
+├── favicon
+│   ├── android-chrome-192x192.png
+│   ├── android-chrome-512x512.png
+│   ├── apple-touch-icon.png
+│   ├── favicon-16x16.png
+│   ├── favicon-32x32.png
+│   ├── favicon.ico
+│   └── site.webmanifest
+├── index.html
+├── info.html
+├── js
+│   ├── activityData.js
+│   ├── animation.js
+│   ├── data.js
+│   └── theme.js
+├── node_modules
+│   ├── chokidar
+│   │   ├── handler.d.ts
+│   │   ├── handler.js
+│   │   ├── index.d.ts
+│   │   ├── index.js
+│   │   ├── LICENSE
+│   │   ├── package.json
+│   │   └── README.md
+│   ├── detect-libc
+│   │   ├── index.d.ts
+│   │   ├── lib
+│   │   │   ├── detect-libc.js
+│   │   │   ├── elf.js
+│   │   │   ├── filesystem.js
+│   │   │   └── process.js
+│   │   ├── LICENSE
+│   │   ├── package.json
+│   │   └── README.md
+│   ├── immutable
+│   │   ├── dist
+│   │   │   ├── immutable.d.ts
+│   │   │   ├── immutable.es.js
+│   │   │   ├── immutable.js
+│   │   │   ├── immutable.js.flow
+│   │   │   └── immutable.min.js
+│   │   ├── LICENSE
+│   │   ├── package.json
+│   │   └── README.md
+│   ├── is-extglob
+│   │   ├── index.js
+│   │   ├── LICENSE
+│   │   ├── package.json
+│   │   └── README.md
+│   ├── is-glob
+│   │   ├── index.js
+│   │   ├── LICENSE
+│   │   ├── package.json
+│   │   └── README.md
+│   ├── node-addon-api
+│   │   ├── common.gypi
+│   │   ├── except.gypi
+│   │   ├── index.js
+│   │   ├── LICENSE.md
+│   │   ├── napi.h
+│   │   ├── napi-inl.deprecated.h
+│   │   ├── napi-inl.h
+│   │   ├── node_addon_api.gyp
+│   │   ├── node_api.gyp
+│   │   ├── noexcept.gypi
+│   │   ├── nothing.c
+│   │   ├── package.json
+│   │   ├── package-support.json
+│   │   ├── README.md
+│   │   └── tools
+│   │       ├── check-napi.js
+│   │       ├── clang-format.js
+│   │       ├── conversion.js
+│   │       ├── eslint-format.js
+│   │       └── README.md
+│   ├── @parcel
+│   │   ├── watcher
+│   │   │   ├── binding.gyp
+│   │   │   ├── index.d.ts
+│   │   │   ├── index.js
+│   │   │   ├── index.js.flow
+│   │   │   ├── LICENSE
+│   │   │   ├── package.json
+│   │   │   ├── README.md
+│   │   │   ├── scripts
+│   │   │   │   └── build-from-source.js
+│   │   │   ├── src
+│   │   │   │   ├── Backend.cc
+│   │   │   │   ├── Backend.hh
+│   │   │   │   ├── binding.cc
+│   │   │   │   ├── Debounce.cc
+│   │   │   │   ├── Debounce.hh
+│   │   │   │   ├── DirTree.cc
+│   │   │   │   ├── DirTree.hh
+│   │   │   │   ├── Event.hh
+│   │   │   │   ├── Glob.cc
+│   │   │   │   ├── Glob.hh
+│   │   │   │   ├── kqueue
+│   │   │   │   │   ├── KqueueBackend.cc
+│   │   │   │   │   └── KqueueBackend.hh
+│   │   │   │   ├── linux
+│   │   │   │   │   ├── InotifyBackend.cc
+│   │   │   │   │   └── InotifyBackend.hh
+│   │   │   │   ├── macos
+│   │   │   │   │   ├── FSEventsBackend.cc
+│   │   │   │   │   └── FSEventsBackend.hh
+│   │   │   │   ├── PromiseRunner.hh
+│   │   │   │   ├── shared
+│   │   │   │   │   ├── BruteForceBackend.cc
+│   │   │   │   │   └── BruteForceBackend.hh
+│   │   │   │   ├── Signal.hh
+│   │   │   │   ├── unix
+│   │   │   │   │   ├── fts.cc
+│   │   │   │   │   └── legacy.cc
+│   │   │   │   ├── wasm
+│   │   │   │   │   ├── include.h
+│   │   │   │   │   ├── WasmBackend.cc
+│   │   │   │   │   └── WasmBackend.hh
+│   │   │   │   ├── Watcher.cc
+│   │   │   │   ├── Watcher.hh
+│   │   │   │   ├── watchman
+│   │   │   │   │   ├── BSER.cc
+│   │   │   │   │   ├── BSER.hh
+│   │   │   │   │   ├── IPC.hh
+│   │   │   │   │   ├── WatchmanBackend.cc
+│   │   │   │   │   └── WatchmanBackend.hh
+│   │   │   │   └── windows
+│   │   │   │       ├── WindowsBackend.cc
+│   │   │   │       ├── WindowsBackend.hh
+│   │   │   │       ├── win_utils.cc
+│   │   │   │       └── win_utils.hh
+│   │   │   └── wrapper.js
+│   │   └── watcher-linux-x64-glibc
+│   │       ├── LICENSE
+│   │       ├── package.json
+│   │       ├── README.md
+│   │       └── watcher.node
+│   ├── picomatch
+│   │   ├── index.js
+│   │   ├── lib
+│   │   │   ├── constants.js
+│   │   │   ├── parse.js
+│   │   │   ├── picomatch.js
+│   │   │   ├── scan.js
+│   │   │   └── utils.js
+│   │   ├── LICENSE
+│   │   ├── package.json
+│   │   ├── posix.js
+│   │   └── README.md
+│   ├── readdirp
+│   │   ├── index.d.ts
+│   │   ├── index.js
+│   │   ├── LICENSE
+│   │   ├── package.json
+│   │   └── README.md
+│   ├── sass
+│   │   ├── LICENSE
+│   │   ├── package.json
+│   │   ├── README.md
+│   │   ├── sass.dart.js
+│   │   ├── sass.default.cjs
+│   │   ├── sass.default.js
+│   │   ├── sass.js
+│   │   ├── sass.node.js
+│   │   ├── sass.node.mjs
+│   │   └── types
+│   │       ├── compile.d.ts
+│   │       ├── deprecations.d.ts
+│   │       ├── exception.d.ts
+│   │       ├── importer.d.ts
+│   │       ├── index.d.ts
+│   │       ├── legacy
+│   │       │   ├── exception.d.ts
+│   │       │   ├── function.d.ts
+│   │       │   ├── importer.d.ts
+│   │       │   ├── options.d.ts
+│   │       │   ├── plugin_this.d.ts
+│   │       │   └── render.d.ts
+│   │       ├── logger
+│   │       │   ├── index.d.ts
+│   │       │   ├── source_location.d.ts
+│   │       │   └── source_span.d.ts
+│   │       ├── options.d.ts
+│   │       ├── util
+│   │       │   └── promise_or.d.ts
+│   │       └── value
+│   │           ├── argument_list.d.ts
+│   │           ├── boolean.d.ts
+│   │           ├── calculation.d.ts
+│   │           ├── color.d.ts
+│   │           ├── function.d.ts
+│   │           ├── index.d.ts
+│   │           ├── list.d.ts
+│   │           ├── map.d.ts
+│   │           ├── mixin.d.ts
+│   │           ├── number.d.ts
+│   │           └── string.d.ts
+│   └── source-map-js
+│       ├── lib
+│       │   ├── array-set.js
+│       │   ├── base64.js
+│       │   ├── base64-vlq.js
+│       │   ├── binary-search.js
+│       │   ├── mapping-list.js
+│       │   ├── quick-sort.js
+│       │   ├── source-map-consumer.d.ts
+│       │   ├── source-map-consumer.js
+│       │   ├── source-map-generator.d.ts
+│       │   ├── source-map-generator.js
+│       │   ├── source-node.d.ts
+│       │   ├── source-node.js
+│       │   └── util.js
+│       ├── LICENSE
+│       ├── package.json
+│       ├── README.md
+│       ├── source-map.d.ts
+│       └── source-map.js
+├── package.json
+├── package-lock.json
+├── readme.md
+├── sass
+│   ├── _info.scss
+│   └── main.scss
+└── tree.txt
+
+43 directories, 205 files
